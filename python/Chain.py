@@ -17,4 +17,7 @@ class BlockChain:
 if __name__ == "__main__":
     chain = BlockChain()
     m1 = Miner()
-    m1.mining(chain.getTail())
+    m1.mining(chain)
+
+    m2 = Miner()
+    chain.getTail().addTransaction(m1.transfer(m2.pubickey, 50))

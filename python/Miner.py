@@ -1,18 +1,6 @@
-import rsa
+import rsa,hashlib
 from rsa import VerificationError
 from Block import CoinBlock
-
-
-def __verify(self, signature, recipient, value):
-    try:
-        data = str(recipient) + str(value)
-        rsa.verify(data.encode('utf8'), signature, self.pubickey)
-        return 0
-    except VerificationError:
-        return 1
-    else:
-        return 2
-
 
 class Miner:
 
@@ -20,6 +8,8 @@ class Miner:
         pub, pri = rsa.newkeys(1024)
         self.privatekey = pri
         self.pubickey = pub
+        self.pubickey.save_pkcs1()
+        print(self.privatekey)
         self.pubickey.save_pkcs1()
 
     def __sign(self, recipient, value):
@@ -32,9 +22,9 @@ class Miner:
         signature = self.__sign(recipent, amount)
         return Transaction(self.pubickey, recipent, amount, signature)
 
-    def mining(self, preblock):
-        return CoinBlock(self.pubickey, preblock.hash)
-
+    def mining(self, chain):
+        block = CoinBlock(self.pubickey, chain.getTail().hash)
+        chain.append(block)
 
 class Transaction:
 
