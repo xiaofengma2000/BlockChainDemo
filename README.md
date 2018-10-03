@@ -24,4 +24,5 @@ learn block chain by doing a demo
   * stop: stop a peer
 
 # Python Version
-to be done
+
+read only, use Flask to view the details of each block
